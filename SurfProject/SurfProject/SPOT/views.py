@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets,status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
@@ -52,6 +52,18 @@ class SurferView(viewsets.ViewSet):
     def list(self, request):
         serializer = SurferSerializer(self.queryset, many=True)
         return Response(serializer.data)
-
-class CreateSurfView(APIView):
     
+
+
+class CreateSurfView(viewsets.ViewSet):
+    queryset = Session.objects.all()
+
+    serializer_class = CreateSurferSerializer
+
+    @action(methods=["post"], detail=False,url_path=r"CreateSurfer/all",
+        url_name="all",)
+    def create_session(self, request):
+        serializer = CreateSurferSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
