@@ -11,3 +11,8 @@ class SurferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Surfer
         fields ="__all__"
+
+class CreateSurferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Surfer
+        fields ="__all__"

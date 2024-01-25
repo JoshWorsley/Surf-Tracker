@@ -2,9 +2,10 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.views import APIView
 
 from .models import Session, Surfer
-from .serializers import SessionSerializer, SurferSerializer
+from .serializers import SessionSerializer, SurferSerializer, CreateSurferSerializer
 
 
 class SessionView(viewsets.ViewSet):
@@ -51,3 +52,6 @@ class SurferView(viewsets.ViewSet):
     def list(self, request):
         serializer = SurferSerializer(self.queryset, many=True)
         return Response(serializer.data)
+
+class CreateSurfView(APIView):
+    
