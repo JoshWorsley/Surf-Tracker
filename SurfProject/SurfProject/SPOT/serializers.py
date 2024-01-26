@@ -16,3 +16,8 @@ class CreateSurferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Surfer
         fields ="__all__"
+
+class SpotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Session
+        fields =("Spot","Wind","rating")
