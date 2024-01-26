@@ -14,6 +14,8 @@ router.register(r"Surfer",views.SurferView)
 
 router.register(r"CreateSufer",views.CreateSurfView)
 
+router.register(r"CreateSurfSession",views.CreateSurfSessionView)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
