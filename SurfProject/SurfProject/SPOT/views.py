@@ -4,9 +4,18 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 import pandas as pd
+import json
+from .openjson import get_closest_city
 
 from .models import Session, Surfer
 from .serializers import SessionSerializer, SurferSerializer, CreateSurferSerializer,SpotSerializer
+import os
+from dotenv import load_dotenv
+import requests
+
+load_dotenv() 
+
+api_key = os.getenv("API_KEY")
 
 
 class SessionView(viewsets.ViewSet):
@@ -71,14 +80,46 @@ class SessionView(viewsets.ViewSet):
         )  
 
         serialized_data = serializer.data
+        
         df = pd.DataFrame(serialized_data)
         df['Score'] = [2 if x == "good" else 1 if x == "okay" else -1 for x in df['rating']]
-        best_wind = df.groupby("Wind")['Score'].sum()
-        best_wind_dict = best_wind.to_dict()
-        
-      
-        serialized_data.append(best_wind_dict)
 
+        best_wind = df.groupby("Wind")['Score'].sum()
+
+        best_tide = df.groupby("Tide")['Score'].sum()
+        
+        best_wind_dict = best_wind.to_dict()
+
+        best_tide_dict = best_tide.to_dict()
+      
+        serialized_data.append({"Wind_Score":best_wind_dict})
+
+        serialized_data.append({"Tide_Score":best_tide_dict})
+
+   
+        with open(r'SurfProject\SPOT\SurfSpotList.json', 'r') as file:
+            data = json.load(file)
+            
+            city = get_closest_city(data,Spot)
+
+        
+
+        # city = "Whakatane"
+
+        url = f"http://api.weatherapi.com/v1/current.json?key={api_key} &q={city}&aqi=no"
+
+        responae = requests.get(url=url)
+
+
+        WIND_DIR = (responae.json()["current"]['wind_dir'])
+        WIND_KMP  = (responae.json()["current"]['wind_kph'])
+
+        serialized_data.append({"Current_Wind_Direction":WIND_DIR})
+
+        serialized_data.append({"Current_Wind_Speed":WIND_KMP})
+
+        # summary = {Spot:{{"Wind_Score":best_wind_dict},{"Tide_Score":best_tide_dict}}}
+        
 
         return Response(serialized_data)
     

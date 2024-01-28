@@ -38,6 +38,13 @@ class Session(models.Model):
             ('okay', 'Okay'),
         )
     )
+    Tide = models.CharField(max_length=4,
+                            choices=(
+            ('high', 'High'),
+            ('mid', 'Mid'),
+            ('low', 'Low'),
+        ),default="high"
+                            )
     
     def __str__(self) -> str:
         return self.Spot

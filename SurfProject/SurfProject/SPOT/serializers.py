@@ -20,4 +20,4 @@ class CreateSurferSerializer(serializers.ModelSerializer):
 class SpotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Session
-        fields =("Spot","Wind","rating")
+        fields =("Spot","Wind","rating","Tide")
