@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  django:
+    build: .  # Build the image from the Dockerfile in the current directory
+    volumes:
+      - ./:/app  # Mount the local Django project directory into the container
+    ports:
+      - "5000:8000"  # Map container port 8000 to host port 5000
+    networks:
+      - django_network
+
+networks:
+  django_network:
