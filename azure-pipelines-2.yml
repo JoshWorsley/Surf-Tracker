@@ -6,7 +6,7 @@
 trigger:
 - main
 
-pool: jowo-desktop
+pool: Default
 
 steps:
 - script: echo Hello, world!
