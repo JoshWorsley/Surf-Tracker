@@ -9,7 +9,9 @@ trigger:
 pool: Default
 
 steps:
-- script: echo Hello, world!
+- script: git pull
+          docker build -t python-django-app .
+          docker run -it -p 8000:8000 python-django-app
   displayName: 'Run a one-line script'
 
 - script: |
