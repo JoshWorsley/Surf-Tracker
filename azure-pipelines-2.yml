@@ -10,7 +10,8 @@ pool: Default
 
 steps:
 - script: |
-    git pull && docker build -t python-django-app . && docker run -it -p 8000:8000 python-django-app
+    ls
+    # git pull && docker build -t python-django-app . && docker run -it -p 8000:8000 python-django-app
 
 
 
