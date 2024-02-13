@@ -14,4 +14,4 @@ EXPOSE 8000
 
 # Runs the production server (using relative path)
 ENTRYPOINT ["python", "SurfProject/manage.py"]
-CMD ["runserver", "0.0.0.0:8000"]
+CMD ["makemigrations","migrate","runserver", "0.0.0.0:8000"]
